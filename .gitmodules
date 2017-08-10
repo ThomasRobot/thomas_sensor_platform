@@ -1,0 +1,9 @@
+[submodule "pointgrey_camera_driver"]
+	path = pointgrey_camera_driver
+	url = https://github.com/ThomasRobot/pointgrey_camera_driver.git
+[submodule "xsens_mti_ros_node"]
+	path = xsens_mti_ros_node
+	url = https://github.com/ThomasRobot/xsens_mti_ros_node.git
+[submodule "velodyne"]
+	path = velodyne
+	url = https://github.com/ThomasRobot/velodyne.git
