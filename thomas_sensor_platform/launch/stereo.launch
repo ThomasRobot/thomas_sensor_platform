@@ -1,0 +1,72 @@
+<launch>
+
+  <!-- Arguments -->
+  <arg name="camera_name" value="pointgrey"/>
+  <arg name="indoor" value="false"/>
+  <arg name="height" default="1024"/>
+  <arg name="offset" default="0"/>
+
+  <!-- Image size -->
+  <param name="/$(arg camera_name)/left/camera_nodelet/format7_roi_height" value="$(arg height)"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/format7_roi_height" value="$(arg height)"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/format7_y_offset" value="$(arg offset)"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/format7_y_offset" value="$(arg offset)"/>
+
+  <!-- Image compression -->
+  <param name="/$(arg camera_name)/left/image_raw/compressed/format" value="png"/>
+  <param name="/$(arg camera_name)/right/image_raw/compressed/format" value="png"/>
+  <!--param name="/$(arg camera_name)/left/image_raw/multithread_compressed/format" value="png"/-->
+  <!--param name="/$(arg camera_name)/right/image_raw/multithread_compressed/format" value="png"/-->
+
+  <!-- Exposure settings -->
+  <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter_max" value="200"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_min" value="1"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_max" value="200"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/auto_white_balance" value="false"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/auto_white_balance" value="false"/>
+  <group if="$(arg indoor)">
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter" value="false"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter" value="false"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/shutter_speed" value="0.015"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/shutter_speed" value="0.015"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_exposure" value="true"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_exposure" value="true"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_gain" value="false"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_gain" value="false"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/gain" value="18"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/gain" value="18"/>
+  </group>
+  <group unless="$(arg indoor)">
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter" value="true"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter" value="true"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_exposure" value="false"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_exposure" value="false"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_gain" value="false"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_gain" value="false"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/exposure" value="1.2"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/exposure" value="1.2"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/gain" value="0"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/gain" value="0"/>
+  </group>
+
+  <!-- Trigger -->
+  <!--param name="/$(arg camera_name)/left/camera_nodelet/enable_strobe2" value="true"/-->
+  <!--param name="/$(arg camera_name)/left/camera_nodelet/strobe2_duration" value="1.0"/-->
+  <!--param name="/$(arg camera_name)/left/camera_nodelet/strobe2_polarity" value="0"/-->
+
+  <param name="/$(arg camera_name)/left/camera_nodelet/enable_trigger" value="true"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/trigger_source" value="gpio3"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/trigger_polarity" value="1"/>
+
+  <param name="/$(arg camera_name)/right/camera_nodelet/enable_trigger" value="true"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/trigger_source" value="gpio3"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/trigger_polarity" value="1"/>
+
+  <include file="$(find pointgrey_camera_driver)/launch/stereo.launch">
+    <arg name="camera_name" value="$(arg camera_name)"/>
+    <arg name="frame_rate" value="30"/>
+    <arg name="left_camera_serial" value="16386863"/>
+    <arg name="right_camera_serial" value="16386867"/>
+  </include>
+
+</launch>
