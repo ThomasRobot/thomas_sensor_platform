@@ -1,4 +1,5 @@
 <launch>
   <include file="$(find thomas_sensor_platform)/launch/imu.launch"/>
   <include file="$(find thomas_sensor_platform)/launch/stereo.launch"/>
+  <include file="$(find thomas_sensor_platform)/launch/lidar.launch"/>
 </launch>
