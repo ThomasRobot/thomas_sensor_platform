@@ -16,11 +16,9 @@
 #include <stdio.h>
 #include <string.h>
 
-uint16_t counter = 0;
-int hhh = 0;
-int mmm = 0;
-int sss = 0;
+uint32_t counter = 0;
 int send_gps = 0;
+int gps_pulse_sent = 0;
 
 #define USART_TXEMPTY(USARTx)               ((USARTx)->SR & USART_FLAG_TXE)
 #define USART_WAIT(USARTx)                  do { while (!USART_TXEMPTY(USARTx)); } while (0)
@@ -215,28 +213,11 @@ void EXTI0_IRQHandler(void) {
 		/* For LiDAR: 1Hz */
 		if (((counter+1) % 400) == 0) {
 			GPIO_ResetBits(GPIOD, GPIO_Pin_2);
-			GPIO_SetBits(GPIOD, GPIO_Pin_13); // For debug
-			static int hh = 0;
-			static int mm = 0;
-			static int ss = 0;
-
-			hhh = hh;
-			mmm = mm;
-			sss = ss;
-			send_gps = 1;
-
-			ss++;
-			if (ss == 60) {
-				ss = 0;
-				mm++;
-				if (mm == 60) {
-					mm = 0;
-					hh++;
-				}
-			}
+			// GPIO_SetBits(GPIOD, GPIO_Pin_13); // For debug
+			gps_pulse_sent = 1;
 		} else if (((counter+1) % 400) == 10) {
 			GPIO_SetBits(GPIOD, GPIO_Pin_2);
-			GPIO_ResetBits(GPIOD, GPIO_Pin_13); // For debug
+			// GPIO_ResetBits(GPIOD, GPIO_Pin_13); // For debug
 		}
 
 		/* Clear interrupt flag */
@@ -282,13 +263,46 @@ void USART1_IRQHandler(void) {
 
 					if (data_len >= 5) {
 						if (buf[4] == 0x10 && buf[5] == 0x20 && buf[6] == 2) {
-							counter = buf[7] << 8 | buf[8];
+
+							static uint32_t short_counter = 0;
+							static uint32_t loop = 0;
+							uint32_t new_short_counter = buf[7] << 8 | buf[8];
+							if (new_short_counter < short_counter)
+								loop++;
+							short_counter = new_short_counter;
+
+							counter = loop << 16 | short_counter;
+
+							if (gps_pulse_sent) {
+								gps_pulse_sent = 0;
+								send_gps = 1;
+							}
+							/*
+							static int hh = 0;
+							static int mm = 0;
+							static int ss = 0;
+
+							hhh = hh;
+							mmm = mm;
+							sss = ss;
+							send_gps = 1;
+
+							ss++;
+							if (ss == 60) {
+								ss = 0;
+								mm++;
+								if (mm == 60) {
+									mm = 0;
+									hh++;
+								}
+							}
+							*/
 #if 0
-							 char tt[10];
-							 itoa(counter, tt, 10);
-							 uputs("C:");
-							 uputs(tt);
-							 uputs("\r\n");
+							char tt[10];
+							itoa(counter, tt, 10);
+							uputs("C:");
+							uputs(tt);
+							uputs("\r\n");
 #endif
 						} else {
 							uputs("No TS?\r\n");
@@ -321,20 +335,27 @@ int main(void) {
 
 	uputs("Hello world\r\n");
 
-	char content[] = "$GPRMC,000000,A,1.1,N,2.2,W,3.3,4.4,170101,004.2,W*";
+	char content[] = "$GPRMC,000000,A,hh.mm,N,ss.00,W,3.3,4.4,170101,004.2,W*";
 
-	char tmpc[2]; tmpc[1] = '\0';
+	// char tmpc[2]; tmpc[1] = '\0';
 
 	while (1) {
 		if (send_gps) {
 			send_gps = 0;
 
-			content[ 7] = '0' + hhh / 10;
-			content[ 8] = '0' + hhh % 10;
-			content[ 9] = '0' + mmm / 10;
-			content[10] = '0' + mmm % 10;
-			content[11] = '0' + sss / 10;
-			content[12] = '0' + sss % 10;
+			int hh, mm, ss;
+			ss = counter / 400;
+			mm = ss / 60;
+			ss = ss % 60;
+			hh = mm / 60;
+			mm = mm % 60;
+
+			content[ 7] = content[16] = '0' + hh / 10;
+			content[ 8] = content[17] = '0' + hh % 10;
+			content[ 9] = content[19] = '0' + mm / 10;
+			content[10] = content[20] = '0' + mm % 10;
+			content[11] = content[24] = '0' + ss / 10;
+			content[12] = content[25] = '0' + ss % 10;
 
 			char cs;
 			cs = 0x00;
@@ -356,6 +377,6 @@ int main(void) {
 			uputs(tmpc);
 			dd = 0;
 		}
-		*/
+		 */
 	}
 }
