@@ -335,7 +335,7 @@ int main(void) {
 
 	uputs("Hello world\r\n");
 
-	char content[] = "$GPRMC,000000,A,hh.mm,N,ss.00,W,3.3,4.4,170101,004.2,W*";
+	char content[] = "$GPRMC,000000,A,hh.mm,N,ss.00,W,3.3,4.4,010117,004.2,W*";
 
 	// char tmpc[2]; tmpc[1] = '\0';
 
