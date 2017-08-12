@@ -1,0 +1,20 @@
+<library path="src">
+  <class name="Sensor Monitor" type="sensor_monitor.widget.SensorMonitor" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      An example Python GUI plugin to create a great user interface.
+    </description>
+    <qtgui>
+      <!-- optional grouping...
+      <group>
+        <label>Group</label>
+      </group>
+      <group>
+        <label>Subgroup</label>
+      </group>
+      -->
+      <label>Sensor Monitor</label>
+      <icon type="theme">system-help</icon>
+      <statustip>Monitoring sensor status</statustip>
+    </qtgui>
+  </class>
+</library>
