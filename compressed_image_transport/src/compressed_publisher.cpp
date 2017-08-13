@@ -180,7 +180,7 @@ void CompressedPublisher::publish(const sensor_msgs::Image& message, const Publi
           cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(message, tracked_object, targetFormat.str());
 
           // Compress image
-          if (cv::imencode(".png", cv_ptr->image, compressed.data, params))
+          if (cv::imencode(".png", cv_ptr->image, compressed.data/*, params*/))
           {
 
             float cRatio = (float)(cv_ptr->image.rows * cv_ptr->image.cols * cv_ptr->image.elemSize())
