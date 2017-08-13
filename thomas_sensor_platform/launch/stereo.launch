@@ -2,7 +2,7 @@
 
   <!-- Arguments -->
   <arg name="camera_name" value="pointgrey"/>
-  <arg name="indoor" value="false"/>
+  <arg name="indoor" value="true"/>
   <arg name="height" default="1024"/>
   <arg name="offset" default="0"/>
 
@@ -61,6 +61,11 @@
   <param name="/$(arg camera_name)/right/camera_nodelet/enable_trigger" value="true"/>
   <param name="/$(arg camera_name)/right/camera_nodelet/trigger_source" value="gpio3"/>
   <param name="/$(arg camera_name)/right/camera_nodelet/trigger_polarity" value="1"/>
+
+  <param name="/$(arg camera_name)/left/camera_nodelet/white_balance_red" value="570"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/white_balance_blue" value="715"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/white_balance_red" value="566"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/white_balance_blue" value="713"/>
 
   <include file="$(find pointgrey_camera_driver)/launch/stereo.launch">
     <arg name="camera_name" value="$(arg camera_name)"/>
