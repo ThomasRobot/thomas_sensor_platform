@@ -7,3 +7,6 @@
 [submodule "velodyne"]
 	path = velodyne
 	url = https://github.com/ThomasRobot/velodyne.git
+[submodule "rtk_gps"]
+	path = rtk_gps
+	url = https://github.com/ThomasRobot/rtk_gps.git
