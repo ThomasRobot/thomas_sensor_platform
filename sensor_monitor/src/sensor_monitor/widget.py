@@ -7,6 +7,7 @@ import rospy
 import rospkg
 import rosbag
 from sensor_msgs.msg import CompressedImage, PointCloud2, Imu
+from gps_common.msg import GPSFix
 
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
@@ -67,10 +68,11 @@ class SensorMonitor(Plugin):
 
         rospy.Timer(rospy.Duration(1), self.timer_callback)
 
-        self.add_sensor("pointgrey_left", "/pointgrey/left/image_raw/compressed", CompressedImage, 25.0)
-        self.add_sensor("pointgrey_right", "/pointgrey/right/image_raw/compressed", CompressedImage, 25.0)
-        self.add_sensor("imu", "/mti/sensor/imu", Imu, 400.0)
-        self.add_sensor("velodyne", "/velodyne_points", PointCloud2, 10.0)
+        self.add_sensor("PointGreyLeft", "/pointgrey/left/image_raw/compressed", CompressedImage, 25.0)
+        self.add_sensor("PointGreyRight", "/pointgrey/right/image_raw/compressed", CompressedImage, 25.0)
+        self.add_sensor("IMU", "/mti/sensor/imu", Imu, 400.0)
+        self.add_sensor("Velodyne", "/velodyne_points", PointCloud2, 10.0)
+        self.add_sensor("GPS", "/gps", GPSFix, 5.0)
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
