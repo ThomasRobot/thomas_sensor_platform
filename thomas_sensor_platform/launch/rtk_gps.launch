@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find rtk_gps)/launch/gps.launch">
+    <arg name="device" value="/dev/ttyUSB1"/>
+  </include>
+</launch>
