@@ -203,8 +203,8 @@ void EXTI0_IRQHandler(void) {
 	/* Make sure that interrupt flag is set */
 	if (EXTI_GetITStatus(EXTI_Line0) != RESET) {
 
-		/* For camera: 25Hz */
-		if (((counter+1) % 16) == 0) {
+		/* For camera: 16Hz */
+		if (((counter+1) % 25) == 0) {
 			GPIO_SetBits(GPIOD, GPIO_Pin_1);
 		} else if (((counter+1) % 16) == 1) {
 			GPIO_ResetBits(GPIOD, GPIO_Pin_1);
