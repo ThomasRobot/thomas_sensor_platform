@@ -28,21 +28,21 @@
   <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter" value="true"/>
   <param name="/$(arg camera_name)/left/camera_nodelet/auto_exposure" value="false"/>
   <param name="/$(arg camera_name)/right/camera_nodelet/auto_exposure" value="false"/>
-    <param name="/$(arg camera_name)/left/camera_nodelet/auto_gain" value="false"/>
-    <param name="/$(arg camera_name)/right/camera_nodelet/auto_gain" value="false"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/auto_gain" value="true"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/auto_gain" value="true"/>
   <group if="$(arg indoor)">
     <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter_min" value="1"/>
     <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter_max" value="4095"/>
     <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_min" value="1"/>
     <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_max" value="4095"/>
-    <param name="/$(arg camera_name)/left/camera_nodelet/gain" value="18"/>
-    <param name="/$(arg camera_name)/right/camera_nodelet/gain" value="18"/>
+    <!--param name="/$(arg camera_name)/left/camera_nodelet/gain" value="18"/-->
+    <!--param name="/$(arg camera_name)/right/camera_nodelet/gain" value="18"/-->
   </group>
   <group unless="$(arg indoor)">
     <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter_min" value="1"/>
-    <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter_max" value="391"/>
+    <param name="/$(arg camera_name)/left/camera_nodelet/auto_shutter_max" value="2348"/>
     <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_min" value="1"/>
-    <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_max" value="391"/>
+    <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter_max" value="2348"/>
     <param name="/$(arg camera_name)/left/camera_nodelet/gain" value="0"/>
     <param name="/$(arg camera_name)/right/camera_nodelet/gain" value="0"/>
   </group>
