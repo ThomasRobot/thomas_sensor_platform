@@ -472,7 +472,7 @@ class Calibrator(object):
         assert len(calmessage) < 525, "Calibration info must be less than 525 bytes"
         return calmessage
 
-    def lryaml(self, name, d, k, r, p):
+    def lryaml(self, name, d, k, r, p, R, T):
         calmessage = (""
         + "image_width: " + str(self.size[0]) + "\n"
         + "image_height: " + str(self.size[1]) + "\n"
@@ -486,6 +486,16 @@ class Calibrator(object):
         + "  rows: 1\n"
         + "  cols: 5\n"
         + "  data: [" + ", ".join(["%8f" % d[i,0] for i in range(d.shape[0])]) + "]\n"
+        + "rotation_matrix:\n"
+        + "\n"
+        + "  rows: 3\n"
+        + "  rows: 3\n"
+        + "  data: [" + ", ".join(["%8f" % i for i in R.reshape(1,9)[0]]) + "]\n"
+        + "translation_matrix:\n"
+        + "\n"
+        + "  rows: 1\n"
+        + "  rows: 3\n"
+        + "  data: [" + ", ".join(["%8f" % i for i in T.reshape(1,3)[0]]) + "]\n"
         + "rectification_matrix:\n"
         + "  rows: 3\n"
         + "  cols: 3\n"
@@ -960,7 +970,7 @@ class StereoCalibrator(Calibrator):
           self.lrost(self.name + "/right", self.r.distortion, self.r.intrinsics, self.r.R, self.r.P))
 
     def yaml(self, suffix, info):
-        return self.lryaml(self.name + suffix, info.distortion, info.intrinsics, info.R, info.P)
+        return self.lryaml(self.name + suffix, info.distortion, info.intrinsics, info.R, info.P, self.R, self.T)
 
     # TODO Get rid of "from_images" versions of these, instead have function to get undistorted corners
     def epipolar_error_from_images(self, limage, rimage):
