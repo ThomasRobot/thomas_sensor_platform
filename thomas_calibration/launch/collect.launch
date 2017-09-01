@@ -1,0 +1,9 @@
+<launch>
+  <node pkg="thomas_calibration" type="cameracalibrator.py" name="camera_calibrator" args="--size 7x6 --square 0.1 --approximate 0.1" output="screen">
+    <remap from="left" to="/pointgrey/left/image_raw"/>
+    <remap from="right" to="/pointgrey/right/image_raw"/>
+    <remap from="left_camera" to="/pointgrey/left"/>
+    <remap from="right_camera" to="/pointgrey/right"/>
+    <remap from="laser" to="/velodyne_points"/>
+  </node>
+</launch>

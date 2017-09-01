@@ -7,6 +7,8 @@ import rospy
 import rospkg
 import rosbag
 from sensor_msgs.msg import CompressedImage, PointCloud2, Imu
+from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
 from gps_common.msg import GPSFix
 
 from qt_gui.plugin import Plugin
@@ -68,11 +70,13 @@ class SensorMonitor(Plugin):
 
         rospy.Timer(rospy.Duration(1), self.timer_callback)
 
-        self.add_sensor("PointGreyLeft", "/pointgrey/left/image_raw/compressed", CompressedImage, 25.0)
-        self.add_sensor("PointGreyRight", "/pointgrey/right/image_raw/compressed", CompressedImage, 25.0)
+        self.add_sensor("PointGreyLeft", "/pointgrey/left/image_raw/compressed", CompressedImage, 16.0)
+        self.add_sensor("PointGreyRight", "/pointgrey/right/image_raw/compressed", CompressedImage, 16.0)
         self.add_sensor("IMU", "/mti/sensor/imu", Imu, 400.0)
         self.add_sensor("Velodyne", "/velodyne_points", PointCloud2, 10.0)
         self.add_sensor("GPS", "/rtk_gps/gps", GPSFix, 5.0)
+        self.add_sensor("Velocity", "/thomas_velocity_controller/cmd_vel", Twist, 20.0)
+        self.add_sensor("Odometry", "/thomas_robot/odom", Odometry, 50.0)
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
@@ -111,7 +115,10 @@ class SensorMonitor(Plugin):
     def callback(self, msg, args):
         name = args[0]
         topic = args[1]
-        self.ts_list[name].append(msg.header.stamp.to_sec())
+        if hasattr(msg, 'header'):
+          self.ts_list[name].append(msg.header.stamp.to_sec())
+        else:
+          self.ts_list[name].append(rospy.get_rostime().to_sec())
         self.has_msg[name] = True
         if len(self.ts_list[name]) > self.freq[name] * 2:
             self.ts_list[name] = self.ts_list[name][1:]

@@ -37,6 +37,8 @@ import sensor_msgs.msg
 import sensor_msgs.srv
 import message_filters
 from message_filters import ApproximateTimeSynchronizer
+from cv_bridge import CvBridge
+from sensor_msgs import point_cloud2 as pc2
 
 import os
 from collections import deque
@@ -121,6 +123,8 @@ class CalibrationNode:
         vsub = message_filters.Subscriber('laser', sensor_msgs.msg.PointCloud2)
         ts = synchronizer([lsub, rsub, vsub], 4)
         ts.registerCallback(self.queue_stereo)
+        self.save_counter = 0
+        self.cv_bridge = CvBridge()
 
         msub = message_filters.Subscriber('image', sensor_msgs.msg.Image)
         msub.registerCallback(self.queue_monocular)
@@ -183,6 +187,21 @@ class CalibrationNode:
         (drawable, is_good_sample) = self.c.handle_msg((lmsg, rmsg))
         self.displaywidth = drawable.lscrib.shape[1] + drawable.rscrib.shape[1]
         self.redraw_stereo(drawable)
+
+        if is_good_sample:
+            print "Saving good sample %d" % self.save_counter
+
+            limg = self.cv_bridge.imgmsg_to_cv2(lmsg, "bgr8")
+            cv2.imwrite("left_%02d.png" % self.save_counter, limg)
+
+            rimg = self.cv_bridge.imgmsg_to_cv2(rmsg, "bgr8")
+            cv2.imwrite("right_%02d.png" % self.save_counter, rimg)
+
+            cloud_gen = pc2.read_points(vmsg)
+            cloud = numpy.array(list(cloud_gen))
+            numpy.savetxt("cloud_%02d.pcd" % self.save_counter, cloud, fmt="%.7f %.7f %.7f %d %d", header="version:0.7\nfields x y z intensity ring\nsize 8 8 8 4 4\ntype F F F I I\nwidth %d\nheight 1\ndata ascii" % cloud.shape[0])
+
+            self.save_counter += 1
             
  
     def check_set_camera_info(self, response):

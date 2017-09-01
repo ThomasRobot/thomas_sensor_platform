@@ -1026,7 +1026,7 @@ class StereoCalibrator(Calibrator):
         lgray = self.mkgray(lmsg)
         rgray = self.mkgray(rmsg)
         epierror = -1
-        is_good_sample = False
+        good_sample = False
 
         # Get display-images-to-be and detections of the calibration target
         lscrib_mono, lcorners, ldownsampled_corners, lboard, (x_scale, y_scale) = self.downsample_and_detect(lgray)
@@ -1081,7 +1081,7 @@ class StereoCalibrator(Calibrator):
                 if self.is_good_sample(params):
                     self.db.append( (params, lgray, rgray) )
                     self.good_corners.append( (lcorners, rcorners, lboard) )
-                    is_good_sample = True
+                    good_sample = True
                     print(("*** Added sample %d, p_x = %.3f, p_y = %.3f, p_size = %.3f, skew = %.3f" % tuple([len(self.db)] + params)))
 
         rv = StereoDrawable()
@@ -1089,7 +1089,7 @@ class StereoCalibrator(Calibrator):
         rv.rscrib = rscrib
         rv.params = self.compute_goodenough()
         rv.epierror = epierror
-        return (rv, is_good_sample)
+        return (rv, good_sample)
 
     def do_calibration(self, dump = False):
         # TODO MonoCalibrator collects corners if needed here

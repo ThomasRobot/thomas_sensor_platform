@@ -28,6 +28,8 @@
   <param name="/$(arg camera_name)/right/camera_nodelet/auto_shutter" value="true"/>
   <param name="/$(arg camera_name)/left/camera_nodelet/auto_exposure" value="false"/>
   <param name="/$(arg camera_name)/right/camera_nodelet/auto_exposure" value="false"/>
+  <param name="/$(arg camera_name)/left/camera_nodelet/exposure" value="1.0"/>
+  <param name="/$(arg camera_name)/right/camera_nodelet/exposure" value="1.0"/>
   <param name="/$(arg camera_name)/left/camera_nodelet/auto_gain" value="true"/>
   <param name="/$(arg camera_name)/right/camera_nodelet/auto_gain" value="true"/>
   <group if="$(arg indoor)">

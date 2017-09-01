@@ -1,6 +1,6 @@
 <launch>
   <include file="$(find xsens_driver)/launch/xsens_driver.launch">
-    <arg name="device" value="/dev/ttyUSB0"/>
+    <arg name="device" value="/dev/ttyUSB1"/>
     <arg name="baudrate" value="230400"/>
   </include>
 </launch>
