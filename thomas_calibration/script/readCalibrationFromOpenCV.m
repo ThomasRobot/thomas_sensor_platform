@@ -8,14 +8,14 @@ RY = ReadYaml(right);
 calib.S_{1} = [LY.image_width LY.image_height];
 calib.K_{1} = reshape(cell2mat(LY.camera_matrix.data), 3, 3)';
 calib.D_{1} = cell2mat(LY.distortion_coefficients.data);
-% calib.R_{1} = reshape(cell2mat(LY.rotation_matrix.data), 3, 3)';
-% calib.T_{1} = cell2mat(LY.translation_matrix.data)';
+calib.R_{1} = reshape(cell2mat(LY.rotation_matrix.data), 3, 3)';
+calib.T_{1} = cell2mat(LY.translation_matrix.data)';
 
 calib.S_{2} = [RY.image_width RY.image_height];
 calib.K_{2} = reshape(cell2mat(RY.camera_matrix.data), 3, 3)';
 calib.D_{2} = cell2mat(RY.distortion_coefficients.data);
-% calib.R_{2} = reshape(cell2mat(RY.rotation_matrix.data), 3, 3)';
-% calib.T_{2} = cell2mat(RY.translation_matrix.data)';
+calib.R_{2} = reshape(cell2mat(RY.rotation_matrix.data), 3, 3)';
+calib.T_{2} = cell2mat(RY.translation_matrix.data)';
 
 calib.S_rect_{1} = [LY.image_width LY.image_height];
 calib.R_rect_{1} = reshape(cell2mat(LY.rectification_matrix.data), 3, 3)';
