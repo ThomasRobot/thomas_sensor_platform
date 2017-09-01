@@ -199,7 +199,7 @@ class CalibrationNode:
 
             cloud_gen = pc2.read_points(vmsg)
             cloud = numpy.array(list(cloud_gen))
-            numpy.savetxt("cloud_%02d.pcd" % self.save_counter, cloud, fmt="%.7f %.7f %.7f %d %d", header="version:0.7\nfields x y z intensity ring\nsize 8 8 8 4 4\ntype F F F I I\nwidth %d\nheight 1\ndata ascii" % cloud.shape[0])
+            numpy.savetxt("cloud_%02d.pcd" % self.save_counter, cloud, fmt="%.7f %.7f %.7f %d %d", header="VERSION 0.7\nFIELDS x y z intensity ring\nSIZE 4 4 4 4 4\ntype F F F I I\nWIDTH %d\nHEIGHT %d\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS %d\nDATA ascii" % (cloud.shape[0], cloud.shape[1], cloud.shape[0] * cloud.shape[1]), comments="")
 
             self.save_counter += 1
             
