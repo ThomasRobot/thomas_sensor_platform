@@ -9,8 +9,8 @@ input_dir = '/mnt/DataBlock2/thomas/YQ-south';
 output_dir = '/mnt/DataBlock2/thomas/YQ-south_RAW';
 
 calib = readCalibrationFromOpenCV(...
-  fullfile(input_dir, 'left.yaml'), ...
-  fullfile(input_dir, 'right.yaml'));
+  fullfile(input_dir, 'calibration', 'left.yaml'), ...
+  fullfile(input_dir, 'calibration', 'right.yaml'));
 
 
 %%
@@ -19,6 +19,10 @@ for i=1:length(dirs)
   
   %
   date_dir = [dirs{i}(1:4) '_' dirs{i}(6:7) '_' dirs{i}(9:10)];
+  if exist(fullfile(output_dir, date_dir), 'dir')
+    fprintf('skipped: %s.\n', fullfile(output_dir, date_dir));
+    continue;
+  end
   mkdir(fullfile(output_dir, date_dir));
   
   % bags

@@ -6,10 +6,11 @@ output_dir = '/mnt/DataBlock2/thomas/YQ-south_RAW';
 
 %%
 % CLEmain;
-fid = fopen(fullfile(input_dir, 'calibration', 'calib_cam_to_velo.txt'), 'w');
+fid = fopen(fullfile(input_dir, 'calibration', 'calib_velo_to_cam.txt'), 'w');
 fprintf(fid, 'calib_time: %s\n', 'unknown');
-writeMat(fid, 'R', Pose_CL(1:3,1:3));
-writeMat(fid, 'T', Pose_CL(1:3,4));
+T = [Pose_CL;0 0 0 1]^(-1);
+writeMat(fid, 'R', T(1:3,1:3));
+writeMat(fid, 'T', T(1:3,4));
 fclose(fid);
 
 %%
