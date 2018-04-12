@@ -8,8 +8,8 @@
   <arg name="offset" default="0"/>
   <arg name="left_camera_serial" default="16386863"/>
   <arg name="right_camera_serial" default="16386867"/>
-  <arg name="left_camera_calibrated" default="false"/>
-  <arg name="right_camera_calibrated" default="false"/>
+  <arg name="left_camera_info_url" default=""/>
+  <arg name="right_camera_info_url" default=""/>
 
   <!-- Image size -->
   <param name="/$(arg camera_name)/left/camera_nodelet/format7_roi_width" value="$(arg width)"/>
@@ -76,8 +76,8 @@
     <arg name="frame_rate" value="30"/>
     <arg name="left_camera_serial" value="$(arg left_camera_serial)"/>
     <arg name="right_camera_serial" value="$(arg right_camera_serial)"/>
-    <arg name="left_camera_calibrated" value="$(arg left_camera_calibrated)"/>
-    <arg name="right_camera_calibrated" value="$(arg right_camera_calibrated)"/>
+    <arg name="left_camera_info_url" value="$(arg left_camera_info_url)"/>
+    <arg name="right_camera_info_url" value="$(arg right_camera_info_url)"/>
   </include>
 
 </launch>
