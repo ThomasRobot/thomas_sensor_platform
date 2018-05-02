@@ -6,6 +6,10 @@
   <arg name="width" default="1280"/>
   <arg name="height" default="1024"/>
   <arg name="offset" default="0"/>
+  <arg name="left_camera_serial" default="16386863"/>
+  <arg name="right_camera_serial" default="16386867"/>
+  <arg name="left_camera_info_url" default=""/>
+  <arg name="right_camera_info_url" default=""/>
 
   <!-- Image size -->
   <param name="/$(arg camera_name)/left/camera_nodelet/format7_roi_width" value="$(arg width)"/>
@@ -70,8 +74,10 @@
   <include file="$(find pointgrey_camera_driver)/launch/stereo.launch">
     <arg name="camera_name" value="$(arg camera_name)"/>
     <arg name="frame_rate" value="30"/>
-    <arg name="left_camera_serial" value="16386863"/>
-    <arg name="right_camera_serial" value="16386867"/>
+    <arg name="left_camera_serial" value="$(arg left_camera_serial)"/>
+    <arg name="right_camera_serial" value="$(arg right_camera_serial)"/>
+    <arg name="left_camera_info_url" value="$(arg left_camera_info_url)"/>
+    <arg name="right_camera_info_url" value="$(arg right_camera_info_url)"/>
   </include>
 
 </launch>
