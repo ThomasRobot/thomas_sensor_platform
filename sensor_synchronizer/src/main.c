@@ -206,7 +206,7 @@ void EXTI0_IRQHandler(void) {
 		/* For camera: 16Hz */
 		if (((counter+1) % 25) == 0) {
 			GPIO_SetBits(GPIOD, GPIO_Pin_1);
-		} else if (((counter+1) % 16) == 1) {
+		} else if (((counter+1) % 25) == 1) {
 			GPIO_ResetBits(GPIOD, GPIO_Pin_1);
 		}
 
